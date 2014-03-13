@@ -21,7 +21,7 @@ GameManager.prototype.restart = function () {
 // Set up the game
 GameManager.prototype.setup = function () {
   this.grid         = new Grid(this.size);
-
+  this.turnCount = 0;
   this.score        = 0;
   this.over         = false;
   this.won          = false;
@@ -43,7 +43,8 @@ GameManager.prototype.addStartTiles = function () {
 // Adds a tile in a random position
 GameManager.prototype.addRandomTile = function () {
   if (this.grid.cellsAvailable()) {
-    var value = Math.random() < 0.9 ? 2 : 4;
+    
+    var value = this.turnCount % 10 ==9 ? 4 : 2;
     var tile = new Tile(this.grid.randomAvailableCell(), value);
 
     this.grid.insertTile(tile);
@@ -59,7 +60,7 @@ GameManager.prototype.actuate = function () {
   this.actuator.actuate(this.grid, {
     score:     this.score,
     over:      this.over,
-    won:       this.won,
+    won:       false,
     bestScore: this.scoreManager.get()
   });
 
